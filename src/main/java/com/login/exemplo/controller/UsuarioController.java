@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -43,14 +44,29 @@ public class UsuarioController {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios;
     }
-    @GetMapping(value = "produto")
+    @GetMapping(value = "produto/{id}")
     public Usuario usuarioPorId(@PathVariable int id){
         return usuarioRepository.findById(id).get();
     }
-    @DeleteMapping(value = "deletar")
+    @DeleteMapping(value = "deletar/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable int id){
+
         usuarioRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Excluido com sucesso!");
+    }
+    @PutMapping("Update/{id}")
+    public ResponseEntity<Usuario> updateUser(@PathVariable int id, @RequestBody Usuario user){
+        Optional<Usuario> antigo = usuarioRepository.findById(id);
+        if(antigo.isPresent()){
+            Usuario u = antigo.get();
+            u.setNome(user.getNome());
+            u.setEmail(user.getEmail());
+            u.setSenha(user.getSenha());
+            usuarioRepository.save(u);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(u);
+        }else  {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 
