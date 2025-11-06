@@ -1,38 +1,29 @@
-package com.login.exemplo.entity;
+package com.login.exemplo.dto;
+
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public class ProdutoRequestDTO {
 
 
-import jakarta.persistence.*;
-
-@Entity
-public class Produto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(length = 100, nullable = false)
+    @NotBlank(message = "Nome não pode ser vazio!")
     private String name;
-    @Column(length = 100, nullable = false)
+
+    @NotBlank(message = "Está sem preço")
     private double price;
-    @Column(length = 100)
+
+    @NotNull(message = "Quantidade não pode ser vazio!")
     private int qnt;
 
 
-    public Produto() {
+    public ProdutoRequestDTO() {
     }
 
-    public Produto(String name, double price, int qnt) {
+    public ProdutoRequestDTO(String name, double price, int qnt) {
         this.name = name;
         this.price = price;
         this.qnt = qnt;
-    }
-
-    // Getters and Setters
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

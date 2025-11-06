@@ -1,7 +1,9 @@
 package com.login.exemplo.controller;
 
+import com.login.exemplo.dto.UsuarioRequestDTO;
 import com.login.exemplo.entity.Usuario;
 import com.login.exemplo.repositories.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -19,7 +21,7 @@ public class UsuarioController {
     UsuarioRepository usuarioRepository;
 
     @PostMapping(value = "Usuario/Cadastro")
-    public ResponseEntity<Usuario> saveUser(@RequestBody Usuario user){
+    public ResponseEntity<Usuario> saveUser(@Valid @RequestBody UsuarioRequestDTO user){
         Usuario usuario = new Usuario(user.getNome(), user.getEmail(), user.getSenha());
         usuarioRepository.save(usuario);
         return ResponseEntity.ok(usuario);

@@ -1,8 +1,10 @@
 package com.login.exemplo.controller;
 
 
+import com.login.exemplo.dto.ProdutoRequestDTO;
 import com.login.exemplo.entity.Produto;
 import com.login.exemplo.repositories.ProdutoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,8 @@ public class ProdutoController {
     }
 
     @PostMapping("Criar")
-    public ResponseEntity<Produto> Criar(@RequestBody Produto produto){
+    public ResponseEntity<?> Criar(@Valid @RequestBody ProdutoRequestDTO prod){
+        Produto produto = new Produto(prod.getName(), prod.getPrice(), prod.getQnt());
         produtoRepository.save(produto);
         return ResponseEntity.ok().body(produto);
     }
