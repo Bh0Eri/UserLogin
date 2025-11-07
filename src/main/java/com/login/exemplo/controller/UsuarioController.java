@@ -1,6 +1,7 @@
 package com.login.exemplo.controller;
 
 import com.login.exemplo.dto.UsuarioRequestDTO;
+import com.login.exemplo.dto.UsuarioResponseDTO;
 import com.login.exemplo.entity.Usuario;
 import com.login.exemplo.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -46,6 +47,18 @@ public class UsuarioController {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios;
     }
+    // Lambda
+    @GetMapping(value = "lista/lambda")
+    public List<UsuarioResponseDTO> lista(){
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<UsuarioResponseDTO> usuariodto = usuarios.stream()
+                .map(u -> new UsuarioResponseDTO(u)).toList();
+
+        return usuariodto;
+    }
+
+
+
     @GetMapping(value = "produto/{id}")
     public Usuario usuarioPorId(@PathVariable int id){
         return usuarioRepository.findById(id).get();

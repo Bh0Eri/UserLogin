@@ -2,6 +2,7 @@ package com.login.exemplo.controller;
 
 
 import com.login.exemplo.dto.ProdutoRequestDTO;
+import com.login.exemplo.dto.ProdutoResponseDTO;
 import com.login.exemplo.entity.Produto;
 import com.login.exemplo.repositories.ProdutoRepository;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +43,17 @@ public class ProdutoController {
         produtoRepository.save(produto);
         return ResponseEntity.ok().body(produto);
     }
+
+    @GetMapping(value = "lista")
+    public ResponseEntity<?> lista(){
+        List<Produto> produto = produtoRepository.findAll();
+        List<ProdutoResponseDTO> produtodto = produto.stream()
+                .map(p -> new ProdutoResponseDTO(p)).toList();
+        return ResponseEntity.ok(produtodto);
+    }
+
+
+
 
     @DeleteMapping("Delete/{id}")
     public ResponseEntity<?> Deletar(@PathVariable int id){
